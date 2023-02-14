@@ -77,7 +77,7 @@ TSharedRef<SDockTab> FQuickPluginConfigToolModule::OnSpawnPluginTab(const FSpawn
 
 void FQuickPluginConfigToolModule::PluginButtonClicked()
 {
-	FGlobalTabmanager::Get()->InvokeTab(QuickPluginConfigToolTabName);
+	FGlobalTabmanager::Get()->TryInvokeTab(QuickPluginConfigToolTabName);
 }
 
 

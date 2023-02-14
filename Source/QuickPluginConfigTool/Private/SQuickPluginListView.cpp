@@ -4,9 +4,6 @@
 #include "SPlatformFilter.h"
 #include "Interfaces/IPluginManager.h"
 #include "Interfaces/IProjectManager.h"
-#include "SPlatformFilter.h"
-#include "Interfaces/ITargetPlatform.h"
-#include "Interfaces/ITargetPlatformManagerModule.h"
 
 #define LOCTEXT_NAMESPACE "FQuickPluginConfigToolModule"
 
@@ -59,7 +56,7 @@ void SQuickPluginListView::Construct(const FArguments& InArgs)
 		+ SVerticalBox::Slot()
 		[
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+			.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 			.Padding(4.0f)
 			[
 				SAssignNew(PluginDetailsView, SListView<FPluginDataPtr>)
@@ -153,18 +150,17 @@ void SQuickPluginListView::PopulatePluginsAvailable()
 		{
 			for (const FModuleDescriptor& PluginModule : Plugin->GetDescriptor().Modules)
 			{
-				if (PluginModule.WhitelistPlatforms.Num() == 0 && !(PluginModule.Type == EHostType::Editor || PluginModule.Type == EHostType::EditorNoCommandlet || PluginModule.Type == EHostType::EditorAndProgram))
+				if (PluginModule.PlatformAllowList.Num() == 0 && !(PluginModule.Type == EHostType::Editor || PluginModule.Type == EHostType::EditorNoCommandlet || PluginModule.Type == EHostType::EditorAndProgram))
 				{
 					PluginInfo->SupportedPlatforms.Empty();
 					break;
 				}
 
-				for (const FString& WhitelistedPlatform : PluginModule.WhitelistPlatforms)
+				for (const FString& WhitelistedPlatform : PluginModule.PlatformAllowList)
 				{
 					PluginInfo->SupportedPlatforms.AddUnique(WhitelistedPlatform);
 				}
 			}
-
 		}
 
 		// Create info for all found platforms.
@@ -366,7 +362,6 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 				.IsChecked(PluginDataItem->bIsEnabledByDefault ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
 			.IsEnabled(false)
 			];
-
 	}
 	else if (InColumnName == PluginListViewHelpers::ListHeader_PluginLocation)
 	{
@@ -390,15 +385,15 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 				.Padding(2.0f, 0.0f)
 				[
 					SNew(SBorder)
-					.BorderImage(FEditorStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
+					.BorderImage(FAppStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
 					.BorderBackgroundColor(PluginDataItem->bIsEditorOnlyPlugin ? PlatformColours::Editor_Only : PlatformColours::Others)
 					.ToolTipText(PlatformsLabel)
 					.HAlign(EHorizontalAlignment::HAlign_Center)
 					[
 						SNew(STextBlock)
 						.Text(PlatformsLabel)
-						.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
-						.ColorAndOpacity(!PluginDataItem->bIsEditorOnlyPlugin ? FLinearColor::White : FLinearColor::Black)
+						.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
+						.ColorAndOpacity(FLinearColor::Black)
 					]
 				];
 		}
@@ -411,14 +406,15 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 					.Padding(1.0f, 0.0f)
 					[
 						SNew(SBorder)
-						.BorderImage(FEditorStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
+						.BorderImage(FAppStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
 					.BorderBackgroundColor(BGColour)
 					.ToolTipText(FText::FromString(SupportedPlatformStr))
 					.HAlign(EHorizontalAlignment::HAlign_Center)
 					[
 						SNew(STextBlock)
 						.Text(FText::FromString(SupportedPlatformStr))
-					.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+						.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
+						.ColorAndOpacity(FLinearColor::Black)
 					]
 					];
 			}
@@ -429,14 +425,14 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 					.Padding(2.0f, 0.0f)
 					[
 						SNew(SBorder)
-						.BorderImage(FEditorStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
+						.BorderImage(FAppStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
 						.BorderBackgroundColor(PlatformColours::Editor_Only)
 						.ToolTipText(LOCTEXT("EditorLabel", "Editor"))
 						.HAlign(EHorizontalAlignment::HAlign_Center)
 						[
 							SNew(STextBlock)
 							.Text(LOCTEXT("EditorLabel", "Editor"))
-							.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+							.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 							.ColorAndOpacity(FLinearColor::Black)
 						]
 					];
@@ -465,7 +461,7 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 			[
 				SNew(STextBlock)
 				.Text(FText::FromString(DependenciesFormattedStr))
-			.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+				.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 			];
 	}
 	else
@@ -477,7 +473,7 @@ TSharedRef<SWidget> SPluginInfoRow::GenerateWidgetForColumn(const FName& InColum
 }
 
 
-void SPluginInfoRow::OnPluginEnabledChanged(ECheckBoxState EnabledCheckBoxState)
+void SPluginInfoRow::OnPluginEnabledChanged(ECheckBoxState EnabledCheckBoxState) const
 {
 	PluginDataItem->bEnabled = EnabledCheckBoxState == ECheckBoxState::Checked;
 

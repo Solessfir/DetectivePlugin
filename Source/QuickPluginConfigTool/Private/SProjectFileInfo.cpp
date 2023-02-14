@@ -29,11 +29,11 @@ void SProjectFileInfo::Construct(const FArguments& InArgs)
 	[
 		SNew(SBorder)
 		.Padding(16.0f)
-		.BorderImage(FEditorStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
+		.BorderImage(FAppStyle::GetBrush("SettingsEditor.CheckoutWarningBorder"))
 		.BorderBackgroundColor(ProjectFileInfoPanelHelpers::CanNotEditColour)
 		[
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+			.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 			.Padding(4.0f)
 			[
 				SNew(SVerticalBox)
@@ -46,14 +46,14 @@ void SProjectFileInfo::Construct(const FArguments& InArgs)
 					.AutoWidth()
 					[
 						SNew(SImage)
-						.Image(FEditorStyle::GetBrush("LevelEditor.Tabs.Details"))
+						.Image(FAppStyle::GetBrush("LevelEditor.Tabs.Details"))
 					]
 					+ SHorizontalBox::Slot()
 					.HAlign(HAlign_Left)
 					[
 						SNew(STextBlock)
 						.Text(LOCTEXT("ProjectFileInfoStatusStr", "Status"))
-						.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+						.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 					]
 				]
 				+ SVerticalBox::Slot()
@@ -68,7 +68,7 @@ void SProjectFileInfo::Construct(const FArguments& InArgs)
 						[
 							SNew(STextBlock)
 							.Text(LOCTEXT("UnableToEditLabel", "Unable to make changes to the project file. Please make sure the uproject is writable."))
-							.Font(FEditorStyle::GetFontStyle("DetailsView.CategoryFontStyle"))
+							.Font(FAppStyle::GetFontStyle("DetailsView.CategoryFontStyle"))
 						]
 						+ SVerticalBox::Slot()
 						.Padding(4.0f)
@@ -83,14 +83,14 @@ void SProjectFileInfo::Construct(const FArguments& InArgs)
 								[
 									SNew(STextBlock)
 									.Text(LOCTEXT("ProjectPathLabel", "Project Path - "))
-									.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+									.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 								]
 								+ SHorizontalBox::Slot()
 								.HAlign(HAlign_Left)
 								[
 									SNew(STextBlock)
 									.Text(FText::FromString(ProjectFilePath))
-									.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+									.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 								]
 							]
 						]

@@ -27,7 +27,7 @@ void SQuickPluginConfigTool::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 		SNew(SBorder)
-		.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+		.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 		.Padding(4.0f)
 		[
 			SNew(SVerticalBox)

@@ -11,13 +11,12 @@ class FQuickPluginConfigToolCommands : public TCommands<FQuickPluginConfigToolCo
 public:
 
 	FQuickPluginConfigToolCommands()
-		: TCommands<FQuickPluginConfigToolCommands>(TEXT("QuickPluginConfigTool"), NSLOCTEXT("Contexts", "QuickPluginConfigTool", "QuickPluginConfigTool Plugin"), NAME_None, FQuickPluginConfigToolStyle::GetStyleSetName())
+		: TCommands(TEXT("QuickPluginConfigTool"), NSLOCTEXT("Contexts", "QuickPluginConfigTool", "QuickPluginConfigTool Plugin"), NAME_None, FQuickPluginConfigToolStyle::GetStyleSetName())
 	{
 	}
 
 	// TCommands<> interface
 	virtual void RegisterCommands() override;
 
-public:
 	TSharedPtr< FUICommandInfo > OpenPluginWindow;
 };

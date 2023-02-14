@@ -70,7 +70,7 @@ void SPlatformFilterButton::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 		SAssignNew(FilterCheckItem, SCheckBox)
-		.Style(FEditorStyle::Get(), "ContentBrowser.FilterButton")
+		.Style(FAppStyle::Get(), "ContentBrowser.FilterButton")
 		.OnCheckStateChanged(this, &SPlatformFilterButton::OnCheckStatusChanged)
 		.ForegroundColor(this, &SPlatformFilterButton::GetFilterForegroundColor)
 		.IsChecked(ECheckBoxState::Checked)
@@ -135,7 +135,7 @@ void SPlatformListFilter::Construct(const FArguments& InArgs)
 		[
 			SNew(STextBlock)
 			.Text(LOCTEXT("PlatformFilterLabel", "Filter Plugins:"))
-			.Font(FEditorStyle::GetFontStyle("PropertyWindow.NormalFont"))
+			.Font(FAppStyle::GetFontStyle("PropertyWindow.NormalFont"))
 		]
 		+ SVerticalBox::Slot()
 		[

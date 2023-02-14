@@ -75,12 +75,11 @@ public:
 
 private:
 	/** Handle a plugin being enabled/disabled from the tool. */
-	void OnPluginEnabledChanged(ECheckBoxState EnabledCheckBoxState);
+	void OnPluginEnabledChanged(ECheckBoxState EnabledCheckBoxState) const;
 
 	/** Determine whether the plugin row can be edited at the given time. */
 	bool CanEditPlugin() const;
 
-private:
 	// A reference to the Plugin Information this row holds.
 	FPluginDataPtr PluginDataItem;
 
@@ -108,8 +107,6 @@ public:
 	/**  */
 	virtual ~SQuickPluginListView();
 
-public:
-
 	/** Hook whjich allows us to determine whether we can edit the plugins that are used. */
 	void NotifyProjectFileWriteStatusChanged(bool bIsReadOnly);
 
@@ -123,7 +120,6 @@ private:
 	/** Basic functionality which allows us to sort the table. Handy for finding all enabled plugins etc. */
 	void SortList();
 
-private:
 	/** For the given plugin information, generate a row in our table. */
 	TSharedRef<ITableRow> OnGenerateWidgetForList(FPluginDataPtr InItem, const TSharedRef<STableViewBase>& OwnerTable);
 
@@ -136,7 +132,6 @@ private:
 	/** Listener for changes made to the platform filter in the tool. */
 	void OnPlatformFilterChanged(EPlatformFilter NewFilter);
 
-private:
 	// Access to the list view of represented plugins.
 	TSharedPtr<class SListView<FPluginDataPtr>> PluginDetailsView;
 
